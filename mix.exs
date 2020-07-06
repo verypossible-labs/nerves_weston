@@ -15,7 +15,7 @@ defmodule Weston.MixProject do
   def application do
     [
       extra_applications: [:logger],
-      mod: {Weston.Application, []}
+      mod: {NervesWeston.Application, []}
     ]
   end
 
