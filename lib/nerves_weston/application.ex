@@ -20,21 +20,22 @@ defmodule NervesWeston.Application do
     init(xdg_runtime_dir)
 
     children = [
-      # Starts a worker by calling: Weston.Worker.start_link(arg)
-      {MuonTrap.Daemon, ["weston", ["--tty=#{tty}", "--config=#{config}"] ++ extra_args, [env: env]]}
+      # Starts a worker by calling: NervesWeston.Worker.start_link(arg)
+      {MuonTrap.Daemon,
+       ["weston", ["--tty=#{tty}", "--config=#{config}"] ++ extra_args, [env: env]]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: Weston.Supervisor]
+    opts = [strategy: :one_for_one, name: NervesWeston.Supervisor]
     Supervisor.start_link(children, opts)
   end
 
   def init(xdg_runtime_dir) do
-    :os.cmd('udevd -d');
-    :os.cmd('udevadm trigger --type=subsystems --action=add');
-    :os.cmd('udevadm trigger --type=devices --action=add');
-    :os.cmd('udevadm settle --timeout=30');
+    :os.cmd('udevd -d')
+    :os.cmd('udevadm trigger --type=subsystems --action=add')
+    :os.cmd('udevadm trigger --type=devices --action=add')
+    :os.cmd('udevadm settle --timeout=30')
 
     File.mkdir(xdg_runtime_dir)
     stat = File.stat!(xdg_runtime_dir)
