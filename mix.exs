@@ -1,4 +1,4 @@
-defmodule Weston.MixProject do
+defmodule NervesWeston.MixProject do
   use Mix.Project
 
   def project do
